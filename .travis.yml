@@ -1,0 +1,31 @@
+os: linux
+dist: bionic
+language: bash
+services: docker
+
+env:
+  - VERSION=4.6
+
+jobs:
+  include:
+    - stage: building ppc64le container image
+      arch: ppc64le
+      script:
+        - cd ./dockerfile
+        - cp ../scripts/deploy-ocp-cluster.sh ./
+        - sed -i -e "s/VERSION/$VERSION/g" ./Dockerfile
+        - docker build -t quay.io/powercloud/ocp4-powervs-automation-runtime:ocp-$VERSION-$(uname -m) .
+        - docker login quay.io -u $USER_QUAY -p $PWD_QUAY
+        - docker push quay.io/powercloud/ocp4-powervs-automation-runtime:ocp-$VERSION-$(uname -m)
+    - stage: building x86_64 container image
+      arch: amd64
+      script:
+        - cd ./dockerfile
+        - cp ../scripts/deploy-ocp-cluster.sh ./
+        - sed -i -e "s/VERSION/$VERSION/g" ./Dockerfile
+        - docker build -t quay.io/powercloud/ocp4-powervs-automation-runtime:ocp-$VERSION-$(uname -m) .
+        - docker login quay.io -u $USER_QUAY -p $PWD_QUAY
+        - docker push quay.io/powercloud/ocp4-powervs-automation-runtime:ocp-$VERSION-$(uname -m)
+    - stage: building multi-arch container image
+      arch: ppc64le
+      script: chmod +x ./scripts/multi-arch.sh; ./scripts/multi-arch.sh $VERSION
