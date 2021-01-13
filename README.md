@@ -19,20 +19,23 @@ Deploy a new OpenShift Cluster on PowerVS from within another OpenShift, running
 
 1. **[Create an account at RedHat portal](https://www.redhat.com/wapps/ugc/register.html?_flowId=register-flow&_flowExecutionKey=e1s1)**
 2. Go to **[bit.ly/ocp-secrets](bit.ly/ocp-secrets)** and copy the pull secret.
-3. Paste the secret in the **[ocp-secrets](cluster-configuration/ocp-secrets)** file.
-
-## Step 2: Configure the Variables
-
-Set the required variables by setting the adding its values at the following files:
+3. Paste the secret in the **[ocp-secrets](cluster-configuration/ocp-secrets)** file:
 
 ```
 cluster-configuration/ocp-secrets
+```
+
+## Step 2: Configure the Variables
+
+Set the required variables by setting its values in the following files
+
+```
 cluster-configuration/ocp-variables
 ```
 
 **NOTE**: you can use the [PowerVS Actions](https://github.com/rpsene/powervs-actions) to get the necessary information to fill in the variables.
 
-The variables you need to set are:
+The variables you need to set are the following:
 
 ```
   IBMCLOUD_API_KEY=
