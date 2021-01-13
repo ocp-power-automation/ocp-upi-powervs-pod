@@ -8,7 +8,7 @@ spec:
   restartPolicy: Never
   containers:
     - name: ocp-cluster-CLUSTERID
-      image: quay.io/powercloud/ocp4-powervs-automation-runtime:ocp-VERSION
+      image: quay.io/powercloud/ocp-upi-powervs-pod:ocp-VERSION
       imagePullPolicy: Always
       volumeMounts:
         - name: nfs-pvc
