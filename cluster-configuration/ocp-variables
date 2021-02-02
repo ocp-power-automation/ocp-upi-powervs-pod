@@ -14,3 +14,5 @@ STORAGE_CLASS_NAME=
 PVC_SIZE=
 HTTP_PROXY=
 HTTPS_PROXY=
+OPENSHIFT_INSTALL_TARBALL=https://mirror.openshift.com/pub/openshift-v4/ppc64le/clients/ocp/stable-OCP_VERSION/openshift-install-linux.tar.gz
+OPENSHIFT_CLIENT_TARBALL=https://mirror.openshift.com/pub/openshift-v4/ppc64le/clients/ocp/stable-OCP_VERSION/openshift-client-linux.tar.gz
