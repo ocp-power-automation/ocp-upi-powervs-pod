@@ -1,0 +1,68 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: ocp-cluster-CLUSTERID
+labels:
+  app: ocp-terraform-cluster-CLUSTERID
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ocp-cluster-CLUSTERID
+      image: quay.io/powercloud/ocp-upi-powervs-pod:ocp-VERSION
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: ibmcloud-storage-volume
+          mountPath: "/var/app"
+      env:
+        - name: ACTION
+          value: "action"
+        - name: IBMCLOUD_REGION
+          value: "ibmcloud_region"
+        - name: IBMCLOUD_ZONE
+          value: "ibmcloud_zone"
+        - name: POWERVS_INSTANCE_ID
+          value: "powervs_instance_id"
+        - name: PRIVATE_NETWORK_NAME
+          value: "private_network_name"
+        - name: BASTION_IMAGE_NAME
+          value: "bastion_image_name"
+        - name: RHCOS_IMAGE_NAME
+          value: "rhcos_image_name"
+        - name: PROCESSOR_TYPE
+          value: "processor_type"
+        - name: SYSTEM_TYPE
+          value: "system_type"
+        - name: CLUSTER_DOMAIN
+          value: "cluster_domain"
+        - name: HTTP_PROXY
+          value: "http_proxy"
+        - name: HTTPS_PROXY
+          value: "https_proxy"
+        - name: CLUSTER_ID
+          value: "sufix"
+        - name: CLUSTER_ID_PREFIX
+          value: "prefix"
+        - name: IBMCLOUD_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ocp-terraform-secret-CLUSTERID
+              key: ibm-api-key
+        - name: RHEL_SUBS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ocp-terraform-secret-CLUSTERID
+              key: rh_username
+        - name: RHEL_SUBS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ocp-terraform-secret-CLUSTERID
+              key: rh_password
+        - name: PULL_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: ocp-terraform-config-CLUSTERID
+              key: secrets
+  volumes:
+    - name: ibmcloud-storage-volume
+      persistentVolumeClaim:
+        claimName: ocp-terraform-pv-claim-CLUSTERID
