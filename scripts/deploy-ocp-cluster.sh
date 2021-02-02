@@ -63,6 +63,9 @@ function terraform_apply() {
     local KUBEADMIN_PWD=$($BASTION_SSH -oStrictHostKeyChecking=no 'cat ~/openstack-upi/auth/kubeadmin-password; echo')
     local WEBCONSOLE_URL=$(terraform output --json | jq -r '.web_console_url.value')
     local OCP_SERVER_URL=$(terraform output --json | jq -r '.oc_server_url.value')
+    # copies the authentication files from the bastion
+    AUTH_FILES="auth_files.tgz"
+    $BASTION_SSH -oStrictHostKeyChecking=no 'cd ~/openstack-upi && tar -cf - * | gzip -9' > $AUTH_FILES
 
 cat << EOF
 ****************************************************************
@@ -73,6 +76,7 @@ cat << EOF
   OpenShift Access (user/pwd): kubeadmin/$KUBEADMIN_PWD
   Web Console: $WEBCONSOLE_URL
   OpenShift Server URL: $OCP_SERVER_URL
+  Kubeconfig: $AUTH_FILES
 ****************************************************************
 EOF
 
