@@ -115,6 +115,7 @@ function set_variables() {
     local CLUSTER_SECRETS="$(pwd)"/clusters/$CLUSTER/secret.yaml
     local CLUSTER_PVC="$(pwd)"/clusters/$CLUSTER/pvc.yaml
     local CLUSTER_CONFIG="$(pwd)"/clusters/$CLUSTER/ocp-cluster.yaml
+    local CLUSTER_VARIABLES="$(pwd)"/cluster-configuration/ocp-variables
     
     ### set variables related to the secrets
     # sets the API Key for a given cluster deployment, converting it to base64
@@ -175,6 +176,8 @@ function set_variables() {
 
     sed -i -e "s/VERSION/$OCP_VERSION/g" "$CLUSTER_CONFIG"
 
+    sed -i -e "s/OCP_VERSION/$OCP_VERSION/g" "$CLUSTER_VARIABLES"
+
     sed -i -e "s/action/$ACTION/g" "$CLUSTER_CONFIG"
 
     local HTTP_PROXY=$(grep "HTTP_PROXY" "$(pwd)"/cluster-configuration/ocp-variables | tr -d " " | awk -F "=" '{print $2}')
@@ -182,6 +185,12 @@ function set_variables() {
 
     local HTTPS_PROXY=$(grep "HTTPS_PROXY" "$(pwd)"/cluster-configuration/ocp-variables | tr -d " " | awk -F "=" '{print $2}')
     sed -i -e "s|https_proxy|$HTTPS_PROXY|g" "$CLUSTER_CONFIG"
+
+    local OPENSHIFT_INSTALL_TARBALL=$(grep "OPENSHIFT_INSTALL_TARBALL" "$(pwd)"/cluster-configuration/ocp-variables | tr -d " " | awk -F "=" '{print $2}')
+    sed -i -e "s|openshift_install_tarball|$OPENSHIFT_INSTALL_TARBALL|g" "$CLUSTER_CONFIG"
+
+    local OPENSHIFT_CLIENT_TARBALL=$(grep "OPENSHIFT_CLIENT_TARBALL" "$(pwd)"/cluster-configuration/ocp-variables | tr -d " " | awk -F "=" '{print $2}')
+    sed -i -e "s|openshift_client_tarball|$OPENSHIFT_CLIENT_TARBALL|g" "$CLUSTER_CONFIG"
     ### end cluster deployment variables
 }
 

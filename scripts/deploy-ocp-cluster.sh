@@ -52,6 +52,8 @@ function terraform_apply() {
     -var rhel_subscription_password="$RHEL_SUBS_PASSWORD" \
     -var cluster_id="$CLUSTER_ID" \
     -var cluster_id_prefix="$CLUSTER_ID_PREFIX" \
+    -var openshift_install_tarball="$OPENSHIFT_INSTALL_TARBALL" \
+    -var openshift_client_tarball="$OPENSHIFT_CLIENT_TARBALL" \
     -var cluster_domain="$CLUSTER_DOMAIN" | tee create.log
 
     local BASTION_IP=$(terraform output --json | jq -r '.bastion_public_ip.value')
@@ -82,7 +84,6 @@ function terraform_destroy() {
 
     local SUFIX=$CLUSTER_ID
     local PREFIX=$CLUSTER_ID_PREFIX
-
     local CLUSTER_DIR="/var/app/$PREFIX-$SUFIX"
     
     if [ -d "$CLUSTER_DIR" ]; then
@@ -103,10 +104,12 @@ function terraform_destroy() {
         -var rhel_subscription_password="$RHEL_SUBS_PASSWORD" \
         -var cluster_id="$CLUSTER_ID" \
         -var cluster_id_prefix="$CLUSTER_ID_PREFIX" \
+        -var openshift_install_tarball="$OPENSHIFT_INSTALL_TARBALL" \
+        -var openshift_client_tarball="$OPENSHIFT_CLIENT_TARBALL" \
         -var cluster_domain="$CLUSTER_DOMAIN" | tee destroy.log
 
         cp -r ./* "$CLUSTER_DIR"
-	echo "DONE"
+	    echo "DONE"
     fi
 }
 

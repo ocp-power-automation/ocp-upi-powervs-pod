@@ -42,6 +42,10 @@ spec:
           value: "sufix"
         - name: CLUSTER_ID_PREFIX
           value: "prefix"
+        - name: OPENSHIFT_INSTALL_TARBALL
+          value: "openshift_install_tarball"
+        - name: OPENSHIFT_CLIENT_TARBALL
+          value: "openshift_client_tarball"
         - name: IBMCLOUD_API_KEY
           valueFrom:
             secretKeyRef:
