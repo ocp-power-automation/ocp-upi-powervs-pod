@@ -3,6 +3,11 @@ dist: bionic
 language: bash
 services: docker
 
+# safelist
+branches:
+  only:
+  - main
+
 env:
   - VERSION=4.6
 
