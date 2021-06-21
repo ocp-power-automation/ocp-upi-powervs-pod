@@ -1,0 +1,20 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ocp-terraform-pv-claim-CLUSTERID
+  annotations:
+    volume.beta.kubernetes.io/storage-class: ibmc-s3fs-standard
+    ibm.io/auto-create-bucket: 'true'
+    ibm.io/auto-delete-bucket: 'false'
+    ibm.io/bucket: ocp-cluster-CLUSTERID
+    ibm.io/object-path: ''
+    ibm.io/endpoint: 'https://s3.us-east.cloud-object-storage.appdomain.cloud'
+    ibm.io/region: us-east
+    ibm.io/secret-name: <SECRET_NAME>
+    ibm.io/stat-cache-expire-seconds: ''
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

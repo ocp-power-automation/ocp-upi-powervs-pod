@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmcloud-object-storage-plugin
+  namespace: kube-system
+  labels:
+    app: ibmcloud-object-storage-plugin
+spec:
+  strategy:
+    type: RollingUpdate
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ibmcloud-object-storage-plugin
+  template:
+    metadata:
+      labels:
+        app: ibmcloud-object-storage-plugin
+    spec:
+      tolerations:
+      - operator: "Exists"
+      serviceAccountName: ibmcloud-object-storage-plugin
+      containers:
+        - name: ibmcloud-object-storage-plugin-container
+          image: quay.io/powercloud/ibmcloud-object-storage-plugin
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-provisioner=ibm.io/ibmc-s3fs"
+          env:
+          - name: DEBUG_TRACE
+            value: 'false'
